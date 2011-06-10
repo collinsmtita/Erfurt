@@ -300,7 +300,8 @@ class Graph {
 					$select .= ' ?' . $key;
 					$where[] = '{?s <' . $iri . '> ' . '?' . $key . '.}';
 				}
-				$query = $this->objectManager->get('Erfurt\Sparql\SimpleQueryFactory')->buildFromQueryString(
+				/** @var \Erfurt\Sparql\SimpleQuery $query */
+				$query = $this->objectManager->create('Erfurt\Sparql\SimpleQuery',
 					'SELECT ' . $select . '
 					 WHERE {
 						' . implode(' UNION ', $where) . '
