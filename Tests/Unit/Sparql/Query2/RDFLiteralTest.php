@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Sparql\Query2;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class RDFLiteralTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class RDFLiteralTest extends \Erfurt\Tests\BaseTestCase {
 
 	protected $literal;
 

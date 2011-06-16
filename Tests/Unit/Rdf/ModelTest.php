@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Rdf;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class ModelTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class ModelTest extends \Erfurt\Tests\BaseTestCase {
 
 	protected $_storeStub = null;
 

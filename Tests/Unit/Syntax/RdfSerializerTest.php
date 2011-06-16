@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Syntax;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class RdfSerializerTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class RdfSerializerTest extends \Erfurt\Tests\BaseTestCase {
 
 	/**
 	 * @var \Erfurt\Syntax\RdfSerializer

@@ -30,7 +30,7 @@ namespace Erfurt\Tests\Unit\Sparql;
 ini_set('memory_limit', '1G');
 ini_set('error_reporting', E_ALL | E_STRICT);
 set_include_path(get_include_path() . PATH_SEPARATOR . '../../');
-class ParserQuery10Test extends \Erfurt\Tests\Unit\BaseTestCase {
+class ParserQuery10Test extends \Erfurt\Tests\BaseTestCase {
 
 	const RAP_TEST_DIR = 'resources/sparql/rap/';
 	const OW_TEST_DIR = 'resources/sparql/ontowiki/';

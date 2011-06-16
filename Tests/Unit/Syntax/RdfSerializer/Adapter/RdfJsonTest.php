@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Syntax\RdfSerializer\Adapter;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class RdfJsonTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class RdfJsonTest extends \Erfurt\Tests\BaseTestCase {
 
 	/**
 	 * @var \Erfurt\Syntax\RdfSerializer\Adapter\RdfJson()

@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Namespaces;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class NamespacesTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class NamespacesTest extends \Erfurt\Tests\BaseTestCase {
 
 	const TEST_GRAPH = 'http://example.com/stub/';
 

@@ -36,7 +36,7 @@ namespace Erfurt\Tests\Unit\Sparql;
  * @license    http://opensource.org/licenses/gpl-license.php GNU General Public License (GPL)
  * @version    $Id$
  */
-class Query2Test extends \Erfurt\Tests\Unit\BaseTestCase {
+class Query2Test extends \Erfurt\Tests\BaseTestCase {
 
 	protected $query;
 

@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Wrapper;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class ManagerTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class ManagerTest extends \Erfurt\Tests\BaseTestCase {
 
 	protected $_manager = null;
 

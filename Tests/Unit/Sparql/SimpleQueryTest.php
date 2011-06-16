@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Sparql;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class SimpleQueryTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class SimpleQueryTest extends \Erfurt\Tests\BaseTestCase {
 
 	public function assertQueryEquals($expected, $actual) {
 		// remove white space and comments before query comparison

@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Uri;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class UriTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class UriTest extends \Erfurt\Tests\BaseTestCase {
 
 	public function testCheck() {
 		$validUris = array(

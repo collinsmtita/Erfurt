@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Store\Adapter;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class CompareTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class CompareTest extends \Erfurt\Tests\BaseTestCase {
 
 	public function setUp() {
 

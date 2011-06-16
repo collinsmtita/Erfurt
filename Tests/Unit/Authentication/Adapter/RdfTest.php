@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Authentication\Adapter;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class RdfTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class RdfTest extends \Erfurt\Tests\BaseTestCase {
 
 	public function testObjectCreation() {
 		$instance = new \Erfurt\Authentication\Adapter\Rdf();

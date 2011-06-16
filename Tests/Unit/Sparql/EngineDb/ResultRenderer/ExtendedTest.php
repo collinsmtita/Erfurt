@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Sparql\EngineDb\ResultRenderer;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class ExtendedTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class ExtendedTest extends \Erfurt\Tests\BaseTestCase {
 
 	public function testResultHeadVarsHaveCorrectName() {
 		$this->markTestNeedsDatabase();

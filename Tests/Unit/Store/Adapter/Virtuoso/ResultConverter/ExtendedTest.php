@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Store\Adapter\Virtuoso\ResultConverter;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class ExtendedTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class ExtendedTest extends \Erfurt\Tests\BaseTestCase {
 
 	protected $_fixture = null;
 

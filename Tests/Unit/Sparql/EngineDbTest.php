@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Sparql;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class EngineDbTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class EngineDbTest extends \Erfurt\Tests\BaseTestCase {
 
 	const RDF_TEST_DIR = 'resources/rdf/';
 

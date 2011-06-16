@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Rdf;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class LiteralTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class LiteralTest extends \Erfurt\Tests\BaseTestCase {
 
 	public function testInitWithLabel() {
 		$literal1 = \Erfurt\Domain\Literal::initWithLabel("Testliteral1");

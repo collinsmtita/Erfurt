@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Sparql;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class ParserTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class ParserTest extends \Erfurt\Tests\BaseTestCase {
 
 	const RAP_TEST_DIR = 'resources/sparql/rap/';
 	const OW_TEST_DIR = 'resources/sparql/ontowiki/';

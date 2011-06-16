@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Store;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class StoreTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class StoreTest extends \Erfurt\Tests\BaseTestCase {
 
 	public function testExistence() {
 		$this->assertTrue(class_exists('\Erfurt\Store'));

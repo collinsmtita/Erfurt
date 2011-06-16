@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Sparql\Query2;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class TripleTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class TripleTest extends \Erfurt\Tests\BaseTestCase {
 
 	protected $triple;
 

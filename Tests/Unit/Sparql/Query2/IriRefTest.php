@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Sparql\Query2;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class IriRefTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class IriRefTest extends \Erfurt\Tests\BaseTestCase {
 
 	protected $iri;
 

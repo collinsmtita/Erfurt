@@ -27,7 +27,7 @@ namespace Erfurt\Wrapper;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class RegistryTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class RegistryTest extends \Erfurt\Tests\BaseTestCase {
 
 	protected $_registry = null;
 

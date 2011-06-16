@@ -27,7 +27,7 @@ namespace Erfurt\Tests\Unit\Store\Adapter;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class SparqlTest extends \Erfurt\Tests\Unit\BaseTestCase {
+class SparqlTest extends \Erfurt\Tests\BaseTestCase {
 
 	public function setUp() {
 

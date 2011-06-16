@@ -28,7 +28,7 @@ namespace Erfurt\Tests\Unit\Sparql;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 set_include_path(get_include_path() . PATH_SEPARATOR . '../../ontowiki/src/libraries/');
-class ParserQuery11Test extends \Erfurt\Tests\Unit\BaseTestCase {
+class ParserQuery11Test extends \Erfurt\Tests\BaseTestCase {
 
 	const RAP_TEST_DIR = 'resources/sparql/rap/';
 	const OW_TEST_DIR = 'resources/sparql/ontowiki/';
