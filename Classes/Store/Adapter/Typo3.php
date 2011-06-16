@@ -26,29 +26,13 @@ namespace Erfurt\Store\Adapter;
  * @scope prototype
  */
 use \Erfurt\Sparql;
-class Typo3 implements AdapterInterface, \Erfurt\Store\Sql\SqlInterface {
+class Typo3 extends AbstractAdapter implements \Erfurt\Store\Sql\SqlInterface {
 
-	/**
-	 * @array
-	 */
-	protected $graphCache = array();
-
-	/**
-	 * @array
-	 */
-	protected $graphInfoCache;
 
 	/**
 	 * @var \t3lib_DB
 	 */
 	protected $databaseConnection;
-
-	/**
-	 * The injected knowledge base
-	 *
-	 * @var \Erfurt\Object\ObjectManager
-	 */
-	protected $objectManager;
 
 	/**
 	 * The injected environment
@@ -76,15 +60,6 @@ class Typo3 implements AdapterInterface, \Erfurt\Store\Sql\SqlInterface {
 		if (!$this->databaseConnection->isConnected()) {
 			throw new \Exception('TYPO3_DB is not connected. Something went wrong inside TYPO3', 1303213794);
 		}
-	}
-
-	/**
-	 * Injector method for a \Erfurt\Object\ObjectManager
-	 *
-	 * @var \Erfurt\Object\ObjectManager
-	 */
-	public function injectObjectManager(\Erfurt\Object\ObjectManager $objectManager) {
-		$this->objectManager = $objectManager;
 	}
 
 	/**
@@ -236,21 +211,6 @@ class Typo3 implements AdapterInterface, \Erfurt\Store\Sql\SqlInterface {
 			}
 		} else {
 			return -1;
-		}
-	}
-
-	/** @see \Erfurt\Store\Adapter\AdapterInterface */
-	public function addStatement($graphIri, $subject, $predicate, $object, array $options = array()) {
-		$statementArray = array();
-		$statementArray["$subject"] = array();
-		$statementArray["$subject"]["$predicate"] = array();
-		$statementArray["$subject"]["$predicate"][] = $object;
-		try {
-			$this->addMultipleStatements($graphIri, $statementArray);
-		}
-		catch (\Exception $e) {
-			throw new \Exception('Insertion of statement failed:' .
-													 $e->getMessage());
 		}
 	}
 
@@ -480,16 +440,6 @@ class Typo3 implements AdapterInterface, \Erfurt\Store\Sql\SqlInterface {
 		throw new \Exception('Not implemented yet.');
 	}
 
-	/** @see \Erfurt\Store\Adapter\AdapterInterface */
-	public function getAvailableGraphs() {
-		$graphInfoCache = $this->getGraphInfos();
-		$graphs = array();
-		foreach ($graphInfoCache as $mInfo) {
-			$graphs[$mInfo['graphIri']] = true;
-		}
-		return $graphs;
-	}
-
 	public function getBackendName() {
 		return 'ZendDb';
 	}
@@ -530,31 +480,6 @@ class Typo3 implements AdapterInterface, \Erfurt\Store\Sql\SqlInterface {
 		} else {
 			return array();
 		}
-	}
-
-	/** @see \Erfurt\Store\Adapter\AdapterInterface */
-	public function getGraph($graphIri) {
-		// if graph is already in cache return the cached value
-		if (isset($this->graphCache[$graphIri])) {
-			return clone $this->graphCache[$graphIri];
-		}
-		$graphInfoCache = $this->getGraphInfos();
-		$baseIri = $graphInfoCache[$graphIri]['baseIri'];
-		if ($baseIri === '') {
-			$baseIri = null;
-		}
-		// choose the right type for the graph instance and instanciate it
-		if ($graphInfoCache[$graphIri]['type'] === 'owl') {
-			$m = $this->objectManager->create('Erfurt\Domain\Model\Owl\Graph', $graphIri, $baseIri);
-		} else {
-			if ($this->graphInfoCache[$graphIri]['type'] === 'rdfs') {
-				$m = $this->objectManager->create('Erfurt\Domain\Model\Rdfs\Graph', $graphIri, $baseIri);
-			} else {
-				$m = $this->objectManager->create('Erfurt\Domain\Model\Rdf\Graph', $graphIri, $baseIri);
-			}
-		}
-		$this->graphCache[$graphIri] = $m;
-		return $m;
 	}
 
 	/** @see \Erfurt\Store\Adapter\AdapterInterface */
@@ -796,16 +721,6 @@ class Typo3 implements AdapterInterface, \Erfurt\Store\Sql\SqlInterface {
 		$this->graphInfoCache = null;
 	}
 
-	/** @see \Erfurt\Store\Adapter\AdapterInterface */
-	public function isGraphAvailable($graphIri) {
-		$graphInfoCache = $this->getGraphInfos();
-		if (isset($graphInfoCache[$graphIri])) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	/** @see \Erfurt\Store\Sql\SqlInterface */
 	public function lastInsertId() {
 		return $this->databaseConnection->sql_insert_id();
@@ -882,14 +797,6 @@ class Typo3 implements AdapterInterface, \Erfurt\Store\Sql\SqlInterface {
 //		$debugText = 'SQL Query (' . $time . ' ms)';
 //		$logger->debug($debugText);
 		return $result;
-	}
-
-	protected function getGraphInfos() {
-		if (null === $this->graphInfoCache) {
-			// try to fetch graph and namespace infos... if all tables are present this should not lead to an error.
-			$this->fetchGraphInfos();
-		}
-		return $this->graphInfoCache;
 	}
 
 	protected function getSchemaReferenceThreshold() {
