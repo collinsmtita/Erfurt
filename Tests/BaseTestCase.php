@@ -38,15 +38,13 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase {
 	protected $objectManager;
 
 	public function __construct($name = null, $data = array(), $dataName = '') {
-		error_reporting(E_ERROR | E_WARNING | E_PARSE);
+		//error_reporting(E_ERROR | E_WARNING | E_PARSE);
 		if (!class_exists('Erfurt\Resource\ClassLoader', FALSE)) {
-			require_once(__DIR__ . '../../Classes/Resource/ClassLoader.php');
-			spl_autoload_register(array(new \Erfurt\Resource\ClassLoader(), 'loadClass'));
+			require_once(__DIR__ . '/../Classes/Core/ClassLoader.php');
+			spl_autoload_register(array(new \Erfurt\Core\ClassLoader(), 'loadClass'));
 		}
-		if (!class_exists('Erfurt\Object\ObjectManager', FALSE)) {
-			require_once(__DIR__ . '../../Classes/Object/ObjectManager.php');
-		}
-		$objectManager = new \Erfurt\Object\ObjectManager;
+		$objectManager = new \Erfurt\Object\ObjectManager('testing');
+		$objectManager->injectClassInfoCache(new \Erfurt\Object\ClassInfoCache());
 		$this->objectManager = clone $objectManager;
 		parent::__construct($name, $data, $dataName);
 	}
