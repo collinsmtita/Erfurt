@@ -132,6 +132,11 @@ class Memory extends AbstractAdapter {
 		return $this->graphInfoCache;
 	}
 
+	/** @see \Erfurt\Store\Adapter\AdapterInterface */
+	public function getAvailableGraphs() {
+		return $this->graphs;
+	}
+
 	/**
 	 * @param string $graphIri The Iri, which identifies the graph to look for.
 	 * @param boolean $useAc Whether to use access control or not.
@@ -167,6 +172,7 @@ class Memory extends AbstractAdapter {
 		$graphObject = $this->createGraphObject($type, $graphIri, $baseIri);
 
 		$this->graphs[$graphIri] = $graphObject;
+		$this->graphInfoCache[$graphIri] = true;
 		return TRUE;
 	}
 
@@ -180,6 +186,7 @@ class Memory extends AbstractAdapter {
 			// TODO: throw exception
 		}
 		unset($this->graphs[$graphIri]);
+		unset($this->graphInfoCache[$graphIri]);
 		// TODO remove statements for graph
 	}
 
