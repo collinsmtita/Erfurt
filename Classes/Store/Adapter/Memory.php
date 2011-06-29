@@ -139,7 +139,7 @@ class Memory extends AbstractAdapter {
 	 * @return boolean Returns true if graph exists and is available for the user ($useAc === true).
 	 */
 	public function isGraphAvailable($graphIri) {
-		return isset($this->graphs[$graphIri]) && !empty($this->graphs[$graphIri]);
+		return isset($this->graphs[$graphIri]) && is_object($this->graphs[$graphIri]);
 	}
 
 	/**
