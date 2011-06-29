@@ -302,7 +302,7 @@ class Memory extends AbstractAdapter {
 		}
 
 		$index = array_search($hash, $indexTable[$key]);
-		array_splice($indexTable, $index, 1, array());
+		array_splice($indexTable[$key], $index, 1, array());
 	}
 
 	protected function intersectWithoutNullValues() {
@@ -331,7 +331,7 @@ class Memory extends AbstractAdapter {
 	 *
 	 * @throws Erfurt_Exception
 	 *
-	 * @return int The number of statements deleted
+	 * @return array The matching statements
 	 */
 	public function getMatchingStatements($graphIri, $subject, $predicate, $object) {
 		if ((!isset($this->graphs[$graphIri]))
@@ -370,7 +370,23 @@ class Memory extends AbstractAdapter {
 	 * @return int The number of statements deleted
 	 */
 	public function deleteMatchingStatements($graphIri, $subject, $predicate, $object, array $options = array()) {
-		$matchingStatements = $this->getMatchingStatements();
+			// TODO check and use options
+		$matchingStatements = $this->getMatchingStatements($graphIri, $subject, $predicate, $object);
+
+		foreach ($matchingStatements as $statement) {
+			$this->deleteStatement($statement);
+		}
+	}
+
+	public function deleteStatement($statement) {
+		$hash = $this->hashStatement($statement['g'], $statement['s'], $statement['p'], $statement['o']);
+		$subject = $statement['s'];
+		$predicate = $statement['p'];
+		$object = $statement['o'];
+		$this->removeFromIndexTable($this->statementsBySubject, $subject, $hash);
+		$this->removeFromIndexTable($this->statementsByPredicate, $predicate, $hash);
+		$this->removeFromIndexTable($this->statementsByObject, $object, $hash);
+		unset($this->statements[$hash]);
 	}
 
 	/**
