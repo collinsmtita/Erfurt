@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8') ;
-namespace Erfurt\Sparql\EngineDb\SqlGenerator\Adapter;
+namespace Erfurt\Storage\Typo3;
 
 /*                                                                        *
  * This script belongs to the Erfurt framework.                           *
@@ -19,19 +19,18 @@ namespace Erfurt\Sparql\EngineDb\SqlGenerator\Adapter;
  * License along with the script.                                         *
  * If not, see http://www.gnu.org/copyleft/gpl.html.                      *
  *                                                                        */
-/**
-*   Creates sql statements from a Query object
-*
-*   @author Christian Weiske <cweiske@cweiske.de>
-*   @license http://www.gnu.org/licenses/lgpl.html LGPL
-*
-*   @subpackage sparql
-*/
+
 use \Erfurt;
 use \Erfurt\Domain\Model\Rdf;
 use \Erfurt\Sparql;
-use \Erfurt\Sparql\EngineDb;
-class Typo3 extends EngineDb\SqlGenerator {
+
+/**
+ * Creates sql statements from a Query object
+ *
+ * @author Christian Weiske <cweiske@cweiske.de>
+ * @license http://www.gnu.org/licenses/lgpl.html LGPL
+*/
+class Typo3SqlGeneratorAdapter extends Sparql\EngineDb\SqlGenerator {
 
 	/**
 	 * The injected knowledge base

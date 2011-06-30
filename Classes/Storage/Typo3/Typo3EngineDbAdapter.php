@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8') ;
-namespace Erfurt\Sparql\EngineDb\Adapter;
+namespace Erfurt\Storage\Typo3;
 
 /*                                                                        *
  * This script belongs to the Erfurt framework.                           *
@@ -34,11 +34,12 @@ namespace Erfurt\Sparql\EngineDb\Adapter;
  * @license http://www.gnu.org/licenses/lgpl.html LGPL
  * @version	$Id: $
  */
+
 use \Erfurt\Sparql;
 use \Erfurt\Sparql\EngineDb;
 use \Erfurt\Sparql\EngineDb\ResultRenderer;
-use \Erfurt\Sparql\EngineDb\SqlGenerator\Adapter;
-class Typo3 {
+
+class Typo3EngineDbAdapter {
 
 	/**
 	 * Sparql Query object.
@@ -152,7 +153,7 @@ class Typo3 {
 	}
 
 	/**
-	 *   Create a prepared statement that can be executed later.
+	 * Create a prepared statement that can be executed later.
 	 *
 	 * @param  Dataset	   $dataset	RDF Dataset
 	 * @param  Query		 $query	  Parsed SPARQL query
@@ -274,7 +275,7 @@ class Typo3 {
 			$result = $rc->convertFromDbResults($result['data'], $this->query, $this, $result['vars']);
 			return $result;
 		}
-		$this->sg = $this->objectManager->create('Erfurt\Sparql\EngineDb\SqlGenerator\Adapter\Typo3', $this->query, $this->arModelIdMapping);
+		$this->sg = $this->objectManager->create('Erfurt\Storage\Typo3\Typo3SqlGeneratorAdapter', $this->query, $this->arModelIdMapping);
 		$this->ts = $this->objectManager->create('Erfurt\Sparql\EngineDb\TypeSorter', $this->query, $this);
 		$this->_setOptions();
 		$arSqls = $this->sg->createSql();

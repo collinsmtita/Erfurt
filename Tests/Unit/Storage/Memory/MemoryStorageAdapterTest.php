@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8') ;
-namespace Erfurt\Tests\Unit\Store\Adapter;
+namespace Erfurt\Tests\Unit\Storage\Memory;
 
 /***************************************************************
  *  Copyright notice
@@ -26,14 +26,14 @@ namespace Erfurt\Tests\Unit\Store\Adapter;
  ***************************************************************/
 
 
-class MemoryTest extends \Erfurt\Tests\BaseTestCase {
+class MemoryStorageAdapterTest extends \Erfurt\Tests\BaseTestCase {
 	/**
-	 * @var \Erfurt\Store\Adapter\Memory
+	 * @var \Erfurt\Storage\Memory\MemoryStorageAdapter
 	 */
 	protected $fixture;
 
 	public function setUp() {
-		$this->fixture = new \Erfurt\Store\Adapter\Memory();
+		$this->fixture = new \Erfurt\Storage\Memory\MemoryStorageAdapter();
 
 		$mockedObjectManager = $this->getMock('\Erfurt\Object\ObjectManager');
 		$mockedObjectManager->expects($this->any())->method('create')->will($this->returnValue($this->getMock('\Erfurt\Domain\Model\Rdf\Graph')));

@@ -32,7 +32,7 @@ Erfurt:
   # Store Configuration
   store:
 
-    backend: 'Erfurt\Store\Adapter\Typo3'
+    backend: 'Erfurt\Storage\Typo3\Typo3StorageAdapter'
 
     # Options for the store
     backendOptions:

@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8') ;
-namespace Erfurt\Store\Adapter;
+namespace Erfurt\Storage\Typo3;
 
 /*                                                                        *
  * This script belongs to the Erfurt framework.                           *
@@ -26,7 +26,7 @@ namespace Erfurt\Store\Adapter;
  * @scope prototype
  */
 use \Erfurt\Sparql;
-class Typo3 extends AbstractAdapter implements \Erfurt\Store\Sql\SqlInterface {
+class Typo3StorageAdapter extends \Erfurt\Store\Adapter\AbstractAdapter implements \Erfurt\Store\Sql\SqlInterface {
 
 
 	/**
@@ -735,7 +735,7 @@ class Typo3 extends AbstractAdapter implements \Erfurt\Store\Sql\SqlInterface {
 	public function sparqlAsk($query) {
 		//TODO works for me...., why hasnt this be enabled earlier? is the same as sparqlQuery... looks like the engine supports it. but there is probably a reason for this not to be supported
 		$start = microtime(true);
-		$engine = $this->objectManager->create('Erfurt\Sparql\EngineDb\Adapter\Typo3', $this->databaseConnection, $this->getGraphInfos());
+		$engine = $this->objectManager->create('Erfurt\Storage\Typo3\Typo3EngineDbAdapter', $this->databaseConnection, $this->getGraphInfos());
 		$parser = $this->objectManager->create('Erfurt\Sparql\Parser');
 		if (!($query instanceof Sparql\Query)) {
 			$query = $parser->parse((string)$query);
@@ -753,7 +753,7 @@ class Typo3 extends AbstractAdapter implements \Erfurt\Store\Sql\SqlInterface {
 	public function sparqlQuery($query, $options = array()) {
 		$resultform = (isset($options[STORE_RESULTFORMAT])) ? $options[STORE_RESULTFORMAT] : STORE_RESULTFORMAT_PLAIN;
 		$start = microtime(true);
-		$engine = $this->objectManager->create('Erfurt\Sparql\EngineDb\Adapter\Typo3', $this->databaseConnection, $this->getGraphInfos());
+		$engine = $this->objectManager->create('Erfurt\Storage\Typo3\Typo3EngineDbAdapter', $this->databaseConnection, $this->getGraphInfos());
 		$parser = $this->objectManager->create('Erfurt\Sparql\Parser');
 		if (!($query instanceof Sparql\Query)) {
 			$query = $parser->parse((string)$query);

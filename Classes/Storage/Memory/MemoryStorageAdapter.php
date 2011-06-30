@@ -1,6 +1,6 @@
 <?php
 declare(ENCODING = 'utf-8') ;
-namespace Erfurt\Store\Adapter;
+namespace Erfurt\Storage\Memory;
 
 /*                                                                        *
  * This script belongs to the Erfurt framework.                           *
@@ -20,12 +20,15 @@ namespace Erfurt\Store\Adapter;
  * If not, see http://www.gnu.org/copyleft/gpl.html.                      *
  *                                                                        */
 
+use \Erfurt\Store\Adapter;
 
 /**
+ * In-memory storage adapter
+ *
  * @author Andreas Wolf <andreas.wolf@ikt-werk.de>
  * @license http://opensource.org/licenses/gpl-license.php GNU General Public License (GPL)
  */
-class Memory extends AbstractAdapter {
+class MemoryStorageAdapter extends Adapter\AbstractAdapter {
 
 	/**
 	 * The graphs available in this store
@@ -260,7 +263,7 @@ class Memory extends AbstractAdapter {
 	 */
 	public function addMultipleStatements($graphIri, array $statementsArray, array $options = array()) {
 		if (!$this->isGraphAvailable($graphIri)) {
-			throw new Exception("Graph $graphIri does not exist. Can't add statements to it.", 1308322086);
+			throw new Adapter\Exception("Graph $graphIri does not exist. Can't add statements to it.", 1308322086);
 		}
 
 		foreach ($statementsArray as $subject => $predicatesArray) {
