@@ -53,6 +53,15 @@ class MemoryStorageAdapterTest extends \Erfurt\Tests\BaseTestCase {
 		);
 	}
 
+	protected function prepareMockedGraph($iri) {
+		$mockedGraph = $this->getMock('\Erfurt\Domain\Model\Rdf\Graph');
+		$mockedObjectManager = $this->getMock('\Erfurt\Object\ObjectManager');
+		$mockedObjectManager->expects($this->atLeastOnce())->method('create')->with($this->anything(), $this->equalTo($iri))->will($this->returnValue($mockedGraph));
+		$this->fixture->injectObjectManager($mockedObjectManager);
+
+		return $mockedGraph;
+	}
+
 	/**
 	 * @test
 	 */
@@ -60,14 +69,26 @@ class MemoryStorageAdapterTest extends \Erfurt\Tests\BaseTestCase {
 		// TODO: is this a correct IRI for a graph?
 		$iri = 'http://example.org/some/random/uri/' . uniqid() . '#';
 
-		$mockedGraph = $this->getMock('\Erfurt\Domain\Model\Rdf\Graph');
-		$mockedObjectManager = $this->getMock('\Erfurt\Object\ObjectManager');
-		$mockedObjectManager->expects($this->atLeastOnce())->method('create')->with($this->anything(), $this->equalTo($iri))->will($this->returnValue($mockedGraph));
-		$this->fixture->injectObjectManager($mockedObjectManager);
+		$mockedGraph = $this->prepareMockedGraph($iri);
 
 		$this->fixture->createGraph($iri);
 		$this->assertTrue($this->fixture->isGraphAvailable($iri));
 		$this->assertSame($mockedGraph, $this->fixture->getGraph($iri));
+	}
+
+	/**
+	 * @test
+	 * @depends createGraphCreatesAndStoresNewGraph
+	 */
+	public function graphIsAvailableAfterItHasBeenCreated() {
+		$iri = 'http://example.org/some/random/uri/' . uniqid() . '#';
+
+		$mockedGraph = $this->prepareMockedGraph($iri);
+
+		$this->fixture->createGraph($iri);
+		$graphs = $this->fixture->getAvailableGraphs();
+		$this->assertTrue($this->fixture->isGraphAvailable($iri));
+		$this->assertEquals($mockedGraph, $graphs[$iri]);
 	}
 
 	/**
@@ -175,6 +196,30 @@ class MemoryStorageAdapterTest extends \Erfurt\Tests\BaseTestCase {
 
 		$this->assertEquals(1, count($statementsForObject2));
 		$this->assertContains(array('g' => $graphIri, 's' => $subject, 'p' => $predicate1, 'o' => $object2), $statementsForObject2);
+	}
+
+	/**
+	 * @test
+	 * @depends statementsCanBeAddedAndRetrieved
+	 */
+	public function deleteMatchingStatementsRemovesAllMatchingStatementsFromGraph() {
+			// we create a simple graph here with one subject, two predicates and two objects
+		$graphIri = uniqid();
+		$subject = uniqid();
+		$predicate1 = uniqid(); $predicate2 = uniqid();
+		$object1 = uniqid(); $object2 = uniqid();
+		$statements = array(
+			$subject => array(
+				$predicate1 => array($object1, $object2),
+				$predicate2 => array($object1)
+			)
+		);
+		$this->fixture->createGraph($graphIri);
+		$this->fixture->addMultipleStatements($graphIri, $statements);
+
+		$this->fixture->deleteMatchingStatements($graphIri, $subject, NULL, NULL);
+
+		$this->assertEquals(0, count($this->fixture->getMatchingStatements($graphIri, $subject, NULL, NULL)));
 	}
 }
 

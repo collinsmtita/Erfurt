@@ -317,7 +317,7 @@ class MemoryStorageAdapter extends Adapter\AbstractAdapter {
 		}
 
 		if (count($intersectionArguments) == 0) {
-			return 0;
+			return array();
 		} elseif (count($intersectionArguments) == 1) {
 			return $intersectionArguments[0];
 		} else {
@@ -373,19 +373,16 @@ class MemoryStorageAdapter extends Adapter\AbstractAdapter {
 	 * @return int The number of statements deleted
 	 */
 	public function deleteMatchingStatements($graphIri, $subject, $predicate, $object, array $options = array()) {
-			// TODO check and use options
+			// TODO check and use $options
 		$matchingStatements = $this->getMatchingStatements($graphIri, $subject, $predicate, $object);
 
 		foreach ($matchingStatements as $statement) {
-			$this->deleteStatement($statement);
+			$this->deleteStatement($statement['g'], $statement['s'], $statement['p'], $statement['o']);
 		}
 	}
 
-	public function deleteStatement($statement) {
-		$hash = $this->hashStatement($statement['g'], $statement['s'], $statement['p'], $statement['o']);
-		$subject = $statement['s'];
-		$predicate = $statement['p'];
-		$object = $statement['o'];
+	public function deleteStatement($graphIri, $subject, $predicate, $object) {
+		$hash = $this->hashStatement($graphIri, $subject, $predicate, $object);
 		$this->removeFromIndexTable($this->statementsBySubject, $subject, $hash);
 		$this->removeFromIndexTable($this->statementsByPredicate, $predicate, $hash);
 		$this->removeFromIndexTable($this->statementsByObject, $object, $hash);
@@ -401,7 +398,6 @@ class MemoryStorageAdapter extends Adapter\AbstractAdapter {
 	public function deleteMultipleStatements($graphIri, array $statementsArray) {
 		// TODO: Implement deleteMultipleStatements() method.
 	}
-
 }
 
 ?>
