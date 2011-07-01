@@ -81,51 +81,6 @@ class MemoryStorageAdapter extends Adapter\AbstractAdapter {
 	}
 
 	/**
-	 * Returns the prefix used by the store to identify blank nodes.
-	 *
-	 * @return string
-	 */
-	public function getBlankNodePrefix() {
-		// TODO: Implement getBlankNodePrefix() method.
-	}
-
-	/**
-	 *
-	 * @param string $graphIri
-	 * @param string $locator Either a URL or a absolute file name.
-	 * @param string $type One of:
-	 *		- 'auto' => Tries to detect the type automatically in the following order:
-	 *		   1. Detect XML by XML-Header => rdf/xml
-	 *		   2. If this fails use the extension of the file
-	 *		   3. If this fails throw an exception
-	 *		- 'xml'
-	 *		- 'n3' or 'nt'
-	 * @param boolean $stream Denotes whether $data contains the actual data.
-	 *
-	 * @throws Erfurt_Exception
-	 *
-	 * @return boolean On success
-	 */
-	public function importRdf($graphIri, $data, $type, $locator) {
-		// TODO: Implement importRdf() method.
-	}
-
-	/**
-	 *
-	 * @param string $graphIri
-	 * @param string $serializationType One of:
-	 *		- 'xml'
-	 *		- 'n3' or 'nt'
-	 * @param mixed $filename Either a string containing a absolute filename or null. In case null is given,
-	 * this method returns a string containing the serialization.
-	 *
-	 * @return string/null
-	 */
-	public function exportRdf($graphIri, $serializationType = 'xml', $filename = null) {
-		// TODO: Implement exportRdf() method.
-	}
-
-	/**
 	 * Fetches information about available graphs. This method does nothing in this adapter, as it keeps all graphs
 	 * in memory.
 	 *
@@ -244,6 +199,15 @@ class MemoryStorageAdapter extends Adapter\AbstractAdapter {
 		// TODO: Implement sparqlQuery() method.
 	}
 
+	/**
+	 * Returns an MD5 hash for a statement
+	 *
+	 * @param string $graphIri The graph IRI
+	 * @param string $subject
+	 * @param string $predicate
+	 * @param string $object
+	 * @return string The statement hash
+	 */
 	protected function hashStatement($graphIri, $subject, $predicate, $object) {
 		$hash = md5(
 			$graphIri
@@ -290,6 +254,10 @@ class MemoryStorageAdapter extends Adapter\AbstractAdapter {
 	/**
 	 * Adds a hash entry to a two-dimensional index table. This is used for storing the graph, subject, predicate and object
 	 * hashes.
+	 *
+	 * @param array $indexTable The index table. Passed by reference
+	 * @param string $key The key to store the value under
+	 * @param string $hash The hash to store
 	 */
 	protected function addToIndexTable(&$indexTable, $key, $hash) {
 		if (!isset($indexTable[$key])) {
@@ -299,6 +267,14 @@ class MemoryStorageAdapter extends Adapter\AbstractAdapter {
 		$indexTable[$key][] = $hash;
 	}
 
+	/**
+	 * Removes a hash from a two-dimensional index table
+	 *
+	 * @param array $indexTable The index table. Passed by reference
+	 * @param string $key The key the hash is stored under
+	 * @param string $hash The hash to remove
+	 * @return void
+	 */
 	protected function removeFromIndexTable(&$indexTable, $key, $hash) {
 		if (!in_array($hash, $indexTable[$key])) {
 			return;
@@ -308,6 +284,11 @@ class MemoryStorageAdapter extends Adapter\AbstractAdapter {
 		array_splice($indexTable[$key], $index, 1, array());
 	}
 
+	/**
+	 * Takes an arbitrary number of arguments and intersects them, leaving out NULL values.
+	 *
+	 * @return array The intersection
+	 */
 	protected function intersectWithoutNullValues() {
 		$intersectionArguments = array();
 		foreach (func_get_args() as $argument) {
@@ -326,8 +307,9 @@ class MemoryStorageAdapter extends Adapter\AbstractAdapter {
 	}
 
 	/**
+	 * Returns all statements that match the given parameters. NULL values count as wildcards
 	 *
-	 * @param string $graphIri
+	 * @param string $graphIri The IRI of the graph
 	 * @param mixed $subject (string or null)
 	 * @param mixed $predicate (string or null)
 	 * @param mixed $object (string or null)

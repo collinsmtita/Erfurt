@@ -431,7 +431,7 @@ class Typo3StorageAdapter extends \Erfurt\Store\Adapter\AbstractAdapter implemen
 //		$cache = $this->knowledgeBase->getCache();
 //		$tags = array('graph_info', $graphInfoCache[$graphIri]['graphId']);
 		#$cache->clean(\Zend_Cache::CLEANING_MODE_MATCHING_TAG, $tags);
-		$this->graphCache = array();
+		$this->graphs = array();
 		$this->graphInfoCache = null;
 	}
 
@@ -442,11 +442,6 @@ class Typo3StorageAdapter extends \Erfurt\Store\Adapter\AbstractAdapter implemen
 
 	public function getBackendName() {
 		return 'ZendDb';
-	}
-
-	/** @see \Erfurt\Store\Adapter\AdapterInterface */
-	public function getBlankNodePrefix() {
-		return 'bNode';
 	}
 
 	/**
@@ -883,7 +878,7 @@ class Typo3StorageAdapter extends \Erfurt\Store\Adapter\AbstractAdapter implemen
 	 *
 	 * @throws \Erfurt\Exception
 	 */
-	private function fetchGraphInfos() {
+	protected function fetchGraphInfos() {
 //		$cache = $this->knowledgeBase->getCache();
 //		$id = $cache->makeId($this, '_fetchGraphInfos', array());
 //		$cachedVal = $cache->load($id);

@@ -22,8 +22,9 @@ namespace Erfurt\Store\Adapter;
 
 
 /**
- * @category Erfurt
- * @package Store_Adapter
+ * Abstract base class for storage adapters.
+ *
+ * @package Erfurt
  * @author Andreas Wolf <andreas.wolf@ikt-werk.de>
  * @license http://opensource.org/licenses/gpl-license.php GNU General Public License (GPL)
  */
@@ -32,7 +33,7 @@ abstract class AbstractAdapter implements AdapterInterface {
 	/**
 	 * @array
 	 */
-	protected $graphCache = array();
+	protected $graphs = array();
 
 	/**
 	 * @array
@@ -86,28 +87,39 @@ abstract class AbstractAdapter implements AdapterInterface {
 		}
 	}
 
+	/**
+	 * Create a graph object with the specified parameters
+	 *
+	 * @param string $type
+	 * @param string $graphIri
+	 * @param string $baseIri
+	 * @return \Erfurt\Domain\Model\Rdf\Graph The graph object
+	 */
+	protected function createGraphObject($type, $graphIri, $baseIri) {
+		// choose the right type for the graph instance and instanciate it
+		if ($type === 'owl') {
+			$m = $this->objectManager->create('Erfurt\Domain\Model\Owl\Graph', $graphIri, $baseIri);
+		} else if ($type === 'rdfs') {
+			$m = $this->objectManager->create('Erfurt\Domain\Model\Rdfs\Graph', $graphIri, $baseIri);
+		} else {
+			$m = $this->objectManager->create('Erfurt\Domain\Model\Rdf\Graph', $graphIri, $baseIri);
+		}
+		return $m;
+	}
+
 	/** @see \Erfurt\Store\Adapter\AdapterInterface */
 	public function getGraph($graphIri) {
 		// if graph is already in cache return the cached value
-		if (isset($this->graphCache[$graphIri])) {
-			return clone $this->graphCache[$graphIri];
+		if (isset($this->graphs[$graphIri])) {
+			return clone $this->graphs[$graphIri];
 		}
 		$graphInfoCache = $this->getGraphInfos();
 		$baseIri = $graphInfoCache[$graphIri]['baseIri'];
 		if ($baseIri === '') {
 			$baseIri = null;
 		}
-		// choose the right type for the graph instance and instanciate it
-		if ($graphInfoCache[$graphIri]['type'] === 'owl') {
-			$m = $this->objectManager->create('Erfurt\Domain\Model\Owl\Graph', $graphIri, $baseIri);
-		} else {
-			if ($this->graphInfoCache[$graphIri]['type'] === 'rdfs') {
-				$m = $this->objectManager->create('Erfurt\Domain\Model\Rdfs\Graph', $graphIri, $baseIri);
-			} else {
-				$m = $this->objectManager->create('Erfurt\Domain\Model\Rdf\Graph', $graphIri, $baseIri);
-			}
-		}
-		$this->graphCache[$graphIri] = $m;
+		$m = $this->createGraphObject($graphInfoCache[$graphIri]['type'], $graphIri, $baseIri);
+		$this->graphs[$graphIri] = $m;
 		return $m;
 	}
 
@@ -125,6 +137,60 @@ abstract class AbstractAdapter implements AdapterInterface {
 		}
 	}
 
+	/**
+	 * Returns all statements matching the specified parameters.
+	 *
+	 * @param string $graphIri
+	 * @param string $subject
+	 * @param string $predicate
+	 * @param string $object
+	 */
+	public function getMatchingStatements($graphIri, $subject, $predicate, $object) {
+		throw new \RuntimeException('Not implemented.', 1309207242);
+	}
+
+	/** @see \Erfurt\Store\Adapter\AdapterInterface */
+	public function getBlankNodePrefix() {
+		return 'bNode';
+	}
+
+	/**
+	 *
+	 * @param string $graphIri
+	 * @param string $locator Either a URL or a absolute file name.
+	 * @param string $type One of:
+	 *		- 'auto' => Tries to detect the type automatically in the following order:
+	 *		   1. Detect XML by XML-Header => rdf/xml
+	 *		   2. If this fails use the extension of the file
+	 *		   3. If this fails throw an exception
+	 *		- 'xml'
+	 *		- 'n3' or 'nt'
+	 * @param boolean $stream Denotes whether $data contains the actual data.
+	 *
+	 * @throws Erfurt_Exception
+	 *
+	 * @return boolean On success
+	 */
+	public function importRdf($graphIri, $data, $type, $locator) {
+		// TODO: Implement importRdf() method.
+	}
+
+	/**
+	 * Exports a given graph to RDF, using the given serialization format. The exported graph is returned as a string or
+	 * saved to a file in case a file name is given.
+	 *
+	 * @param string $graphIri
+	 * @param string $serializationType One of:
+	 *		- 'xml'
+	 *		- 'n3' or 'nt'
+	 * @param mixed $filename Either a string containing a absolute filename or null. In case null is given,
+	 * this method returns a string containing the serialization.
+	 *
+	 * @return string/null
+	 */
+	public function exportRdf($graphIri, $serializationType = 'xml', $filename = null) {
+		// TODO: Implement exportRdf() method.
+	}
 }
 
 ?>
