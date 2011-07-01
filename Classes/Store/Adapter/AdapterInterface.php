@@ -51,13 +51,14 @@ interface AdapterInterface {
 	public function addStatement($graphUri, $subject, $predicate, $object, array $options = array());
 
 	/**
-	 * Creates a new empty graph (named graph) with the URI specified.
+	 * Returns all statements matching the specified parameters.
 	 *
-	 * @param string $graphUri
-	 * @param int $type
-	 * @return boolean true on success, false otherwise
+	 * @param string $graphIri
+	 * @param string $subject
+	 * @param string $predicate
+	 * @param string $object
 	 */
-	public function createGraph($graphUri, $type = \Erfurt\Store\Store::GRAPH_TYPE_OWL);
+	public function getMatchingStatements($graphIri, $subject, $predicate, $object);
 
 	/**
 	 *
@@ -82,24 +83,27 @@ interface AdapterInterface {
 	public function deleteMultipleStatements($graphIri, array $statementsArray);
 
 	/**
+	 * Creates a new empty graph (named graph) with the URI specified.
+	 *
+	 * @param string $graphIri
+	 * @param int $type
+	 * @return boolean true on success, false otherwise
+	 */
+	public function createGraph($graphIri, $type = \Erfurt\Store\Store::GRAPH_TYPE_OWL);
+
+	/**
+	 * @param string $graphIri The Iri, which identifies the graph to look for.
+	 *
+	 * @return boolean Returns true if graph exists and is available for the user ($useAc === true).
+	 */
+	public function isGraphAvailable($graphIri);
+
+	/**
 	 * @param string $graphIri The Iri, which identifies the graph.
 	 *
 	 * @throws Erfurt_Exception Throws an exception if no permission, graph not existing or deletion fails.
 	 */
 	public function deleteGraph($graphIri);
-
-	/**
-	 *
-	 * @param string $graphIri
-	 * @param string $serializationType One of:
-	 *		- 'xml'
-	 *		- 'n3' or 'nt'
-	 * @param mixed $filename Either a string containing a absolute filename or null. In case null is given,
-	 * this method returns a string containing the serialization.
-	 *
-	 * @return string/null
-	 */
-	public function exportRdf($graphIri, $serializationType = 'xml', $filename = null);
 
 	/**
 	 * @return array Returns an associative array, where the key is the URI of a graph and the value
@@ -131,6 +135,19 @@ interface AdapterInterface {
 	/**
 	 *
 	 * @param string $graphIri
+	 * @param string $serializationType One of:
+	 *    - 'xml'
+	 *    - 'n3' or 'nt'
+	 * @param mixed $filename Either a string containing a absolute filename or null. In case null is given,
+	 * this method returns a string containing the serialization.
+	 *
+	 * @return string/null
+	 */
+	public function exportRdf($graphIri, $serializationType = 'xml', $filename = null);
+
+	/**
+	 *
+	 * @param string $graphIri
 	 * @param string $locator Either a URL or a absolute file name.
 	 * @param string $type One of:
 	 *		- 'auto' => Tries to detect the type automatically in the following order:
@@ -153,19 +170,10 @@ interface AdapterInterface {
 	public function init();
 
 	/**
-	 * @param string $graphIri The Iri, which identifies the graph to look for.
-	 * @param boolean $useAc Whether to use access control or not.
-	 *
-	 * @return boolean Returns true if graph exists and is available for the user ($useAc === true).
-	 */
-	public function isGraphAvailable($graphIri);
-
-	/**
 	 * Executes a SPARQL ASK query and returns a boolean result value.
 	 *
 	 * @param string $graphIri
 	 * @param string $askSparql
-	 * @param boolean $useAc Whether to check for access control.
 	 */
 	public function sparqlAsk($query);
 

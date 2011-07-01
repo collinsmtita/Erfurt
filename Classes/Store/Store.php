@@ -607,6 +607,18 @@ class Store implements \Erfurt\Singleton {
 	}
 
 	/**
+	 * Returns all statements matching the specified parameters.
+	 *
+	 * @param string $graphIri
+	 * @param string $subject
+	 * @param string $predicate
+	 * @param string $object
+	 */
+	public function getMatchingStatements($graphIri, $subject, $predicate, $object) {
+		return $this->backendAdapter->getMatchingStatements($graphIri, $subject, $predicate, $object);
+	}
+
+	/**
 	 * Searches resources that have literal property values matching $stringSpec.
 	 *
 	 * @param string $stringSpec The string pattern to be matched
