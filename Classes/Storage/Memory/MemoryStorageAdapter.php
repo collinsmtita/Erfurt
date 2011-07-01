@@ -145,7 +145,11 @@ class MemoryStorageAdapter extends Adapter\AbstractAdapter {
 		}
 		unset($this->graphs[$graphIri]);
 		unset($this->graphInfoCache[$graphIri]);
-		// TODO remove statements for graph
+		foreach ($this->statementsByGraph[$graphIri] as $statementHash) {
+			$statement = $this->statements[$statementHash];
+
+			$this->deleteStatement($statement['g'], $statement['s'], $statement['p'], $statement['o']);
+		}
 	}
 
 	/**
@@ -365,6 +369,7 @@ class MemoryStorageAdapter extends Adapter\AbstractAdapter {
 
 	public function deleteStatement($graphIri, $subject, $predicate, $object) {
 		$hash = $this->hashStatement($graphIri, $subject, $predicate, $object);
+		$this->removeFromIndexTable($this->statementsByGraph, $graphIri, $hash);
 		$this->removeFromIndexTable($this->statementsBySubject, $subject, $hash);
 		$this->removeFromIndexTable($this->statementsByPredicate, $predicate, $hash);
 		$this->removeFromIndexTable($this->statementsByObject, $object, $hash);
