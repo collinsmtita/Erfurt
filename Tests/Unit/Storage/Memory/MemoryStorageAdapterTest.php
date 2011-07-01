@@ -93,6 +93,22 @@ class MemoryStorageAdapterTest extends \Erfurt\Tests\BaseTestCase {
 
 	/**
 	 * @test
+	 */
+	public function deleteGraphRemovesGraphFromStore() {
+		$iri = 'http://example.org/some/random/uri/' . uniqid() . '#';
+
+		$mockedGraph = $this->prepareMockedGraph($iri);
+
+		$this->fixture->createGraph($iri);
+		$this->assertTrue($this->fixture->isGraphAvailable($iri));
+		$this->fixture->deleteGraph($iri);
+		$this->assertFalse($this->fixture->isGraphAvailable($iri));
+		$graphs = $this->fixture->getAvailableGraphs();
+		$this->assertNotContains($mockedGraph, $graphs);
+	}
+
+	/**
+	 * @test
 	 * @depends createGraphCreatesAndStoresNewGraph
 	 */
 	public function statementsCanBeAddedAndRetrieved() {
