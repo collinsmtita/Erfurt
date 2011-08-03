@@ -56,7 +56,10 @@ class ClassLoader {
 		}
 
 		if (!isset($classFilePathAndName) && $this->packages === array() && $classNameParts[0] === 'Erfurt') {
-			$classFilePathAndName = EF_PATH_FRAMEWORK . 'Classes/';
+			$classFilePathAndName = EF_PATH_FRAMEWORK;
+			if ($classNameParts[1] !== 'Tests') {
+				$classFilePathAndName .= 'Classes/';
+			}
 			$classFilePathAndName .= implode(array_slice($classNameParts, 1, -1), '/') . '/';
 			$classFilePathAndName .= end($classNameParts) . '.php';
 		}
